@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLPI | Rede Fácil - Central de Serviços de TI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">RF</div><div><strong>REDE FÁCIL</strong><small>Central de Serviços de TI</small></div></div>
+    <div class="side-label">ESPAÇO DE TRABALHO</div>
+    <button class="nav active" data-page="dashboard"><span>▦</span> Painel</button>
+    <button class="nav" data-page="tickets"><span>▤</span> Chamados <b id="navOpen">0</b></button>
+    <button class="nav" data-page="assets"><span>▣</span> Ativos / Inventário</button>
+    <button class="nav" data-page="problems"><span>◉</span> Problemas</button>
+    <button class="nav" data-page="team"><span>♙</span> Equipe de TI</button>
+    <button class="nav" data-page="green"><span>♧</span> TI Verde</button>
+    <div class="sidebar-bottom"><div class="demo-tag">AMBIENTE DEMONSTRATIVO</div><small>Protótipo acadêmico inspirado no GLPI.<br>Dados fictícios para validação.</small></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="crumb">Rede Fácil</span><span class="slash">/</span><strong id="pageTitle">Painel</strong></div><div class="top-actions"><span class="status-dot"></span><span>Ambiente local</span><div class="avatar">RF</div></div></header>
+    <section class="content">
+      <section id="dashboard" class="page active">
+        <div class="page-heading"><div><h1>Painel de atendimento</h1><p>Visão geral da Central de Serviços de TI da Rede Fácil.</p></div><button class="primary" onclick="openTicketModal()">＋ Novo chamado</button></div>
+        <div class="notice"><strong>ℹ Protótipo para validação</strong><span>Os registros abaixo são exemplos simulados com base nos cenários relatados. Não representam dados oficiais da empresa.</span></div>
+        <div class="stats">
+          <article class="stat"><span>Chamados abertos</span><strong id="statOpen">0</strong><small>Precisam de atendimento</small></article>
+          <article class="stat"><span>Em andamento</span><strong id="statProgress">0</strong><small>Com responsável definido</small></article>
+          <article class="stat"><span>Resolvidos</span><strong id="statSolved">0</strong><small>Concluídos no protótipo</small></article>
+          <article class="stat"><span>Ativos cadastrados</span><strong id="statAssets">0</strong><small>Inventário demonstrativo</small></article>
+        </div>
+        <div class="two-col">
+          <article class="panel"><div class="panel-head"><div><h2>Chamados recentes</h2><p>Acompanhamento das solicitações</p></div><button class="link-btn" onclick="showPage('tickets')">Ver todos →</button></div><div id="recentTickets" class="table-wrap"></div></article>
+          <article class="panel"><div class="panel-head"><div><h2>Distribuição por prioridade</h2><p>Chamados não encerrados</p></div></div><div id="priorityBars" class="bars"></div><div class="legend"><span><i class="red"></i> Alta</span><span><i class="yellow"></i> Média</span><span><i class="green"></i> Baixa</span></div></article>
+        </div>
+        <article class="panel"><div class="panel-head"><div><h2>Indicadores sugeridos (KPIs)</h2><p>Indicadores a acompanhar após implantação e coleta de dados reais</p></div><span class="pill blue">COBIT • ITIL 4</span></div><div class="kpi-grid"><div><b>Tempo médio de atendimento</b><small>Medir da abertura até a solução</small></div><div><b>Taxa de resolução</b><small>Chamados resolvidos ÷ total</small></div><div><b>Incidentes recorrentes</b><small>Identificar causas frequentes</small></div><div><b>Disponibilidade dos sistemas</b><small>Acompanhar interrupções</small></div></div></article>
+      </section>
+
+      <section id="tickets" class="page">
+        <div class="page-heading"><div><h1>Chamados</h1><p>Registro, classificação, atribuição e acompanhamento — práticas de gerenciamento de incidentes e requisições do ITIL 4.</p></div><button class="primary" onclick="openTicketModal()">＋ Novo chamado</button></div>
+        <div class="toolbar"><input id="ticketSearch" placeholder="Buscar por título, solicitante ou número..." oninput="renderTickets()"><select id="statusFilter" onchange="renderTickets()"><option value="">Todos os status</option><option>Aberto</option><option>Em andamento</option><option>Pendente</option><option>Resolvido</option></select><select id="priorityFilter" onchange="renderTickets()"><option value="">Todas as prioridades</option><option>Alta</option><option>Média</option><option>Baixa</option></select></div>
+        <article class="panel"><div id="ticketsTable" class="table-wrap"></div></article>
+      </section>
+
+      <section id="assets" class="page">
+        <div class="page-heading"><div><h1>Ativos / Inventário</h1><p>Controle demonstrativo de equipamentos e recursos tecnológicos.</p></div><button class="primary" onclick="openAssetModal()">＋ Cadastrar ativo</button></div>
+        <div class="notice"><strong>Inventário inicial sugerido</strong><span>Os equipamentos abaixo são exemplos de categorias relacionadas aos relatos sobre suporte e telemarketing. Quantidades e patrimônios precisam ser confirmados.</span></div>
+        <article class="panel"><div id="assetsTable" class="table-wrap"></div></article>
+      </section>
+
+      <section id="problems" class="page">
+        <div class="page-heading"><div><h1>Problemas e prevenção</h1><p>Identificação de causas de incidentes recorrentes e ações preventivas.</p></div><button class="primary" onclick="openProblemModal()">＋ Registrar problema</button></div>
+        <div class="notice"><strong>ITIL 4 — Gerenciamento de problemas</strong><span>Separar a restauração rápida do serviço (incidente) da investigação da causa raiz (problema).</span></div>
+        <div id="problemsList" class="card-grid"></div>
+      </section>
+
+      <section id="team" class="page">
+        <div class="page-heading"><div><h1>Equipe de TI</h1><p>Distribuição de responsabilidades baseada no relato fornecido para o projeto.</p></div></div>
+        <div class="notice"><strong>Validar antes de apresentar</strong><span>Os nomes não foram informados. Os papéis abaixo são descrições funcionais, não cadastro oficial de colaboradores.</span></div>
+        <div id="teamGrid" class="team-grid"></div>
+        <article class="panel"><div class="panel-head"><div><h2>Matriz de responsabilidades sugerida</h2><p>Referência para organização e prestação de contas (COBIT).</p></div></div><div class="table-wrap"><table><thead><tr><th>Atividade</th><th>Responsável principal sugerido</th><th>Apoio / validação</th></tr></thead><tbody><tr><td>Priorizar chamados e acompanhar indicadores</td><td>Gestor de TI</td><td>Equipe de TI</td></tr><tr><td>Correção e evolução de sistema interno</td><td>Desenvolvedor</td><td>Gestor de TI</td></tr><tr><td>Controle de contas e permissões</td><td>Responsável por senhas</td><td>Gestor de TI</td></tr><tr><td>Manutenção e substituição de equipamentos</td><td>Técnico de TI</td><td>Estagiário supervisionado</td></tr><tr><td>Atendimentos operacionais e trocas urgentes</td><td>Técnico de TI</td><td>Estagiário supervisionado</td></tr></tbody></table></div></article>
+      </section>
+
+      <section id="green" class="page">
+        <div class="page-heading"><div><h1>TI Verde</h1><p>Controles ambientais inspirados na abordagem de gestão por processos da ISO 14001.</p></div><button class="primary" onclick="openGreenModal()">＋ Registrar ação</button></div>
+        <div class="notice"><strong>Proposta — não implementação confirmada</strong><span>As práticas abaixo são sugestões para avaliação pela empresa e devem ser adequadas aos processos reais.</span></div>
+        <div class="green-summary"><div><span>Ações registradas</span><strong id="greenCount">0</strong></div><div><span>Concluídas</span><strong id="greenDone">0</strong></div><div><span>Próximo passo</span><strong>Definir responsáveis</strong></div></div>
+        <div id="greenList" class="card-grid"></div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="ticketModal"><div class="modal"><div class="modal-head"><div><h2 id="ticketModalTitle">Novo chamado</h2><p>Registre a solicitação para acompanhamento.</p></div><button class="close" onclick="closeModal('ticketModal')">×</button></div><form id="ticketForm"><input type="hidden" id="ticketId"><label>Título do chamado<input id="tTitle" required placeholder="Ex.: Headset sem áudio"></label><div class="form-row"><label>Solicitante<input id="tRequester" required placeholder="Nome ou setor"></label><label>Categoria<select id="tCategory"><option>Hardware</option><option>Software / Sistema</option><option>Acesso / Senha</option><option>Rede</option><option>Solicitação</option></select></label></div><div class="form-row"><label>Prioridade<select id="tPriority"><option>Baixa</option><option selected>Média</option><option>Alta</option></select></label><label>Responsável<select id="tAssignee"><option>Equipe de TI</option><option>Gestor de TI</option><option>Desenvolvedor</option><option>Responsável por senhas</option><option>Técnico de TI</option><option>Estagiário (supervisionado)</option></select></label></div><label>Descrição<textarea id="tDescription" rows="3" placeholder="Descreva o problema ou a necessidade..."></textarea></label><label>Status<select id="tStatus"><option>Aberto</option><option>Em andamento</option><option>Pendente</option><option>Resolvido</option></select></label><div class="modal-actions"><button type="button" class="secondary" onclick="closeModal('ticketModal')">Cancelar</button><button class="primary">Salvar chamado</button></div></form></div></div>
+
+<div class="modal-backdrop" id="assetModal"><div class="modal"><div class="modal-head"><div><h2>Novo ativo</h2><p>Cadastro demonstrativo de equipamento.</p></div><button class="close" onclick="closeModal('assetModal')">×</button></div><form id="assetForm"><label>Nome do ativo<input id="aName" required placeholder="Ex.: Computador Telemarketing 01"></label><div class="form-row"><label>Tipo<select id="aType"><option>Computador</option><option>Headset</option><option>Monitor</option><option>Impressora</option><option>Outro periférico</option></select></label><label>Setor<input id="aSector" placeholder="Ex.: Telemarketing"></label></div><label>Condição<select id="aCondition"><option>Em uso</option><option>Manutenção</option><option>Reserva</option><option>Inativo</option></select></label><div class="modal-actions"><button type="button" class="secondary" onclick="closeModal('assetModal')">Cancelar</button><button class="primary">Salvar ativo</button></div></form></div></div>
+
+<div class="modal-backdrop" id="problemModal"><div class="modal"><div class="modal-head"><div><h2>Registrar problema</h2><p>Investigue uma causa recorrente.</p></div><button class="close" onclick="closeModal('problemModal')">×</button></div><form id="problemForm"><label>Problema identificado<input id="pTitle" required placeholder="Ex.: Falhas recorrentes em headsets"></label><label>Possível causa<textarea id="pCause" rows="2" placeholder="Causa ainda a investigar..."></textarea></label><label>Ação preventiva proposta<textarea id="pAction" rows="2" placeholder="Ex.: verificar conexões, lote e rotina de testes"></textarea></label><div class="modal-actions"><button type="button" class="secondary" onclick="closeModal('problemModal')">Cancelar</button><button class="primary">Salvar problema</button></div></form></div></div>
+
+<div class="modal-backdrop" id="greenModal"><div class="modal"><div class="modal-head"><div><h2>Registrar ação sustentável</h2><p>Ação proposta para avaliação.</p></div><button class="close" onclick="closeModal('greenModal')">×</button></div><form id="greenForm"><label>Ação<input id="gTitle" required placeholder="Ex.: Destinação correta de eletrônicos"></label><label>Responsável sugerido<input id="gOwner" placeholder="Ex.: Gestão de TI"></label><label>Status<select id="gStatus"><option>Planejada</option><option>Em andamento</option><option>Concluída</option></select></label><div class="modal-actions"><button type="button" class="secondary" onclick="closeModal('greenModal')">Cancelar</button><button class="primary">Salvar ação</button></div></form></div></div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body></html>

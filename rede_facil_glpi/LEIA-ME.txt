@@ -1,0 +1,27 @@
+# GLPI demonstrativo — Rede Fácil
+
+Protótipo acadêmico local inspirado na interface tradicional do GLPI.
+
+## Como executar
+1. Extraia o arquivo ZIP.
+2. Abra a pasta `rede_facil_glpi`.
+3. Dê duplo clique em `index.html` ou abra-o no navegador.
+
+Não precisa instalar servidor, banco de dados ou dependências.
+
+## Funcionalidades
+- Painel com indicadores e chamados recentes.
+- Cadastro, edição, filtro e alteração de status de chamados.
+- Cadastro e remoção de ativos.
+- Registro de problemas e ações preventivas.
+- Visualização de papéis da equipe de TI.
+- Registro e atualização de ações de TI Verde.
+- Persistência local no navegador via localStorage.
+
+## Importante
+Este não é o software GLPI oficial nem uma instalação real. É um protótipo independente para validar processos e requisitos. Os dados iniciais são fictícios/demonstrativos, baseados em cenários relatados para o projeto. Não representam inventário, chamados, SLAs ou práticas confirmadas da Rede Fácil.
+
+Conceitos:
+- ITIL 4: fluxo de incidentes/requisições e gerenciamento de problemas.
+- COBIT: responsabilidades, riscos e indicadores.
+- ISO 14001: ações ambientais propostas, ainda sujeitas à validação.
